@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Action Aura Lite — Enterprise Intelligence Platform</title>
+<meta name="description" content="AI-powered enterprise management platform with multi-domain architecture, real-time analytics, and intelligent decision support."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+<link rel="stylesheet" href="/static/css/main.css?v=5.0"/>
+</head>
+<body>
+
+<!-- Global High-Performance WebGL Canvas (Isolated) -->
+<canvas id="blackhole-canvas" class="global-canvas"></canvas>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     CINEMATIC WELCOME SPLASH
+═════════════════════════════════════════════════════════════════ -->
+<div id="welcome-splash" class="ws-overlay" data-enforce="true">
+
+  <!-- Black Hole Canvas (GPU-accelerated, injected by JS) -->
+  <canvas id="bh-welcome-canvas" class="bh-canvas"></canvas>
+
+  <!-- Subtle hex grid texture -->
+  <div class="ws-hex-grid"></div>
+
+  <!-- Top left corner decoration lines -->
+  <div class="ws-corner ws-corner-tl"></div>
+  <div class="ws-corner ws-corner-tr"></div>
+  <div class="ws-corner ws-corner-bl"></div>
+  <div class="ws-corner ws-corner-br"></div>
+
+  <!-- Ambient glow bloom -->
+  <div class="ws-bloom ws-bloom-blue"></div>
+  <div class="ws-bloom ws-bloom-purple"></div>
+
+  <!-- ─── CENTER ─── -->
+  <div class="ws-center">
+
+    <!-- Top status line -->
+    <div class="ws-top-line">
+      <span class="ws-pulse-dot"></span>
+      <span class="ws-status-text">SYSTEM ONLINE</span>
+      <span class="ws-divline"></span>
+      <span class="ws-version">v2.4 ENTERPRISE</span>
+    </div>
+
+    <!-- Main orb -->
+    <div class="ws-orb-wrap">
+      <div class="ws-orb-ring ws-r1"></div>
+      <div class="ws-orb-ring ws-r2"></div>
+      <div class="ws-orb-ring ws-r3"></div>
+      <div class="ws-orb-inner">
+        <div class="ws-orb-glow"></div>
+        <span class="ws-orb-icon">⚡</span>
+      </div>
+    </div>
+
+    <!-- Title block -->
+    <div class="ws-titles">
+      <p class="ws-eyebrow">WELCOME TO</p>
+      <h1 class="ws-main-title">
+        <span class="ws-t1">Action</span><span class="ws-t2">Aura</span>
+      </h1>
+      <div class="ws-tagline-wrap">
+        <div class="ws-tagline-line"></div>
+        <p class="ws-tagline">The Next Generation of Enterprise Systems</p>
+        <div class="ws-tagline-line"></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <button class="ws-cta" onclick="WelcomeSplash.dismiss()">
+      <div class="ws-cta-bg"></div>
+      <span class="ws-cta-label">Continue</span>
+      <svg class="ws-cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+
+    <!-- Bottom domain footer -->
+    <div class="ws-footer-bar">
+      <span>Banking</span>
+      <span class="ws-fb-dot">◆</span>
+      <span>Healthcare</span>
+      <span class="ws-fb-dot">◆</span>
+      <span>Education</span>
+      <span class="ws-fb-dot">◆</span>
+      <span>Manufacturing</span>
+    </div>
+
+  </div><!-- end ws-center -->
+
+</div><!-- end welcome-splash -->
+
+<!-- =================================================================
+     LANDING PAGE
+================================================================== -->
+<div id="page-landing" class="page active">
+  <canvas class="bh-canvas"></canvas>
+  <div class="l-hex-overlay"></div>
+  
+  <nav class="l-nav modern-nav">
+    <div class="l-nav-brand aura-logo" onclick="WelcomeSplash.show()" style="cursor:pointer;" title="Action Aura Home">
+      <div class="l-brand-icon sleek-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div class="l-brand-text">
+        <span class="l-brand-name logo-name">Action<strong>Aura</strong></span>
+        <span class="l-brand-tag">Enterprise Platform</span>
+      </div>
+    </div>
+    <div class="l-nav-right">
+      <div class="l-live-pill modern">
+        <div class="l-live-dot"></div>
+        SYSTEM OPERATIONAL
+      </div>
+    </div>
+  </nav>
+
+  <div class="l-hero modern-hero">
+    <div class="l-eyebrow modern-eyebrow">
+      <span class="eyebrow-line"></span> Next Generation Framework <span class="eyebrow-line"></span>
+    </div>
+    <div class="l-title modern-title">
+      <span class="l-tl l-tl-1">Enterprise Grade</span>
+      <span class="l-tl l-tl-2 l-title-gradient">Intelligence Hub</span>
+    </div>
+
+    <p class="l-desc modern-desc">Architected for scale. Seamlessly unifying operations across all business segments through AI-driven insights and sophisticated workflows.</p>
+
+    <div class="l-cards modern-cards" style="display:grid; grid-template-columns: 1fr 1fr; gap:30px;">
+      <!-- System Admin Card -->
+      <div class="l-card modern-card l-card-staff" onclick="Auth.showAdminLogin()" style="border-image: linear-gradient(180deg, #e0e7ff, transparent) 1; min-height: 280px;">
+        <div class="card-glow" style="background:#e0e7ff; opacity:0.1; filter:blur(40px);"></div>
+        <div class="card-glass" style="height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+          <div class="card-top">
+            <div class="card-icon-modern" style="color:#818cf8; background:rgba(129,140,248,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="card-badge" style="background:rgba(129,140,248,0.15);color:#818cf8">Global Access</span>
+          </div>
+          <div class="card-info">
+            <h3>System Admin (Action Aura)</h3>
+            <p>Master login for Action Aura administrators. Access the Central Intelligence Dashboard, track global backend activity, and override all domains instantly.</p>
+          </div>
+          <button class="modern-card-btn" style="border-color:#818cf8; color:#818cf8">
+            Access Command Portal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Aura Network (Users) Card -->
+      <div class="l-card modern-card l-card-customer" onclick="App.showUserPortalSelect()" style="min-height: 280px;">
+        <div class="card-glow secondary-glow"></div>
+        <div class="card-glass" style="height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+          <div class="card-top">
+            <div class="card-icon-modern secondary-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <span class="card-badge">Staff & Users</span>
+          </div>
+          <div class="card-info">
+            <h3>Register & Login as User</h3>
+            <p>Access the Action Aura Enterprise network. Includes workspaces, public customer portals, and independent subsystems like Accounting & HR.</p>
+          </div>
+          <button class="modern-card-btn l-btn-customer">
+            Browse Portals & Register <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     USER PORTAL SELECTOR (Domain / Customer / Subsystems)
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-user-portal-select" class="page">
+  <canvas class="bh-canvas"></canvas>
+  <div class="modern-domain-bg"></div>
+  <div class="modern-domain-container">
+    <div class="modern-top-bar">
+      <button class="modern-back-btn aura-logo" onclick="WelcomeSplash.show()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span class="logo-name">Action<strong>Aura</strong></span>
+      </button>
+      <div class="modern-context-pill">PLATFORM / SELECT PORTAL</div>
+    </div>
+    <div class="modern-header-section">
+      <h2>Choose Your Portal</h2>
+      <p>Select the environment you need to access. Each portal has its own dedicated login flow.</p>
+    </div>
+    <div class="modern-domain-grid" style="max-width:880px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px;">
+      <!-- Enterprise Domain -->
+      <div class="modern-domain-card" onclick="App.showDomainSelect()" style="cursor:pointer;">
+        <div class="domain-card-icon" style="font-size:28px;">🏢</div>
+        <div class="domain-card-info">
+          <div class="domain-card-name">Enterprise Workspace</div>
+          <div class="domain-card-meta">Domain Login / Registration</div>
+          <p style="font-size:12px; color:#64748b; margin:8px 0 0;">Access banking, healthcare, education, or manufacturing domains as staff or manager.</p>
+        </div>
+        <button class="modern-card-btn l-btn-staff" style="margin-top:16px; width:100%;">Enter Domain →</button>
+      </div>
+      <!-- Customer Portal -->
+      <div class="modern-domain-card" onclick="CustomerApp.showCustomerDomainSelect()" style="cursor:pointer;">
+        <div class="domain-card-icon" style="font-size:28px;">👥</div>
+        <div class="domain-card-info">
+          <div class="domain-card-name">Customer Portal</div>
+          <div class="domain-card-meta">Self-Service Access</div>
+          <p style="font-size:12px; color:#64748b; margin:8px 0 0;">Access your personal banking, healthcare, or loyalty accounts as a customer.</p>
+        </div>
+        <button class="modern-card-btn l-btn-customer" style="margin-top:16px; width:100%;">Customer Login →</button>
+      </div>
+      <!-- Subsystems -->
+      <div class="modern-domain-card" onclick="App.navigate('subs-menu')" style="cursor:pointer;">
+        <div class="domain-card-icon" style="font-size:28px;">⚙️</div>
+        <div class="domain-card-info">
+          <div class="domain-card-name">Subsystems</div>
+          <div class="domain-card-meta">Standalone Modules</div>
+          <p style="font-size:12px; color:#64748b; margin:8px 0 0;">Access independent Accounting, HR, or Inventory systems with their own separate logins.</p>
+        </div>
+        <button class="modern-card-btn l-btn-subs" style="margin-top:16px; width:100%;">Open Subsystems →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SUBSYSTEMS MENU
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-subs-menu" class="page">
+  <canvas class="bh-canvas"></canvas>
+  <div class="modern-domain-bg"></div>
+  <div class="modern-domain-container">
+    <div class="modern-top-bar">
+      <button class="modern-back-btn aura-logo" onclick="WelcomeSplash.show()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span class="logo-name">Action<strong>Aura</strong></span>
+      </button>
+      <div class="modern-context-pill">PLATFORM / SUBSYSTEMS</div>
+    </div>
+    <div class="modern-header-section">
+      <h2>Choose a Subsystem</h2>
+      <p>Each subsystem is an independent, fully-featured product — standalone deployable.</p>
+    </div>
+    <div class="subs-grid">
+      <div class="subs-tile" onclick="SubsystemApp.launch('accounting'); location.hash='subsystem-accounting'">
+        <div class="subs-tile-glow" style="background:#a78bfa"></div>
+        <div class="subs-tile-icon" style="color:#a78bfa">💰</div>
+        <h3>Accounting System</h3>
+        <p>Complete financial management — invoices, transactions, budgets, P&amp;L reports, and AI-powered financial analysis.</p>
+        <div class="subs-tile-tags">
+          <span>Invoicing</span><span>Budgets</span><span>Reports</span><span>AI Insights</span>
+        </div>
+        <button class="subs-tile-btn" style="border-color:#a78bfa;color:#a78bfa">Launch →</button>
+      </div>
+      <div class="subs-tile" onclick="SubsystemApp.launch('hr'); location.hash='subsystem-hr'">
+        <div class="subs-tile-glow" style="background:#34d399"></div>
+        <div class="subs-tile-icon" style="color:#34d399">👥</div>
+        <h3>HR System</h3>
+        <p>Full workforce management — employees, attendance, payroll processing, leave management, and performance reviews.</p>
+        <div class="subs-tile-tags">
+          <span>Employees</span><span>Payroll</span><span>Attendance</span><span>Performance</span>
+        </div>
+        <button class="subs-tile-btn" style="border-color:#34d399;color:#34d399">Launch →</button>
+      </div>
+      <div class="subs-tile" onclick="SubsystemApp.launch('inventory'); location.hash='subsystem-inventory'">
+        <div class="subs-tile-glow" style="background:#fb923c"></div>
+        <div class="subs-tile-icon" style="color:#fb923c">📦</div>
+        <h3>Inventory Management</h3>
+        <p>End-to-end stock control — products, suppliers, purchase orders, real-time alerts, and demand forecasting.</p>
+        <div class="subs-tile-tags">
+          <span>Stock Tracking</span><span>Suppliers</span><span>PO Management</span><span>Alerts</span>
+        </div>
+        <button class="subs-tile-btn" style="border-color:#fb923c;color:#fb923c">Launch →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SUBSYSTEM APP SHELL
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-subsystem" class="page">
+  <div id="subsystem-shell" class="sub-shell"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     DOMAIN SELECTION
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-domain" class="page">
+  <canvas class="bh-canvas"></canvas>
+  <div class="modern-domain-bg"></div>
+  <div class="modern-domain-container">
+    <div class="modern-top-bar">
+      <button class="modern-back-btn aura-logo" onclick="WelcomeSplash.show()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span class="logo-name">Action<strong>Aura</strong></span>
+      </button>
+      <div class="modern-context-pill">SYSTEM ARCHITECTURE / DOMAIN SELECTION</div>
+    </div>
+    
+    <div class="modern-header-section">
+      <h2>Initialize Environment</h2>
+      <p>Select a business domain to load its dedicated operational architecture.</p>
+    </div>
+
+    <div class="modern-domain-grid" id="domain-grid">
+      <!-- injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     LOGIN PAGE
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-login" class="page">
+  <canvas id="bh-login-canvas" class="bh-canvas"></canvas>
+  <div class="modern-login-wrapper">
+    <div class="modern-login-panel">
+      <!-- Left side: Login Form -->
+      <div class="ml-form-side">
+        <button class="ml-back-link" onclick="App.showDomainSelect()">
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to Domains
+        </button>
+        
+        <div class="ml-domain-context" id="login-domain-badge" onclick="App.showLanding()" style="cursor:pointer;" title="Return to Home">
+          <span id="login-domain-icon" class="ml-ctx-icon">🏦</span>
+          <span id="login-domain-name" class="ml-ctx-name">ActionAura</span>
+        </div>
+
+        <div class="ml-headers">
+          <h2>Authentication Gateway</h2>
+          <p>Please enter your enterprise credentials to securely access the system.</p>
+        </div>
+
+        <div class="ml-form" id="login-form">
+          <div class="ml-input-group">
+            <label>Enterprise Email</label>
+            <div class="ml-input-wrapper">
+               <svg class="ml-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+               <input type="text" id="inp-username" placeholder="admin@aura.com" autocomplete="username"/>
+            </div>
+          </div>
+          <div class="ml-input-group">
+            <label>Password</label>
+            <div class="ml-input-wrapper">
+               <svg class="ml-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+               <input type="password" id="inp-password" placeholder="••••••••" autocomplete="current-password"/>
+               <button type="button" class="ml-toggle-pass" onclick="Auth.togglePass()">👁</button>
+            </div>
+          </div>
+          <div id="login-error" class="ml-error hidden"></div>
+          
+          <button class="ml-submit-btn" id="btn-login" onclick="Auth.login()">
+            Authenticate <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right side: Quick Access / Demo Accounts -->
+      <div class="ml-sidebar-side">
+        <div class="ml-sidebar-header">
+           <span class="ml-pulse-dot"></span>
+           <h3>Quick Access Index</h3>
+        </div>
+        <p class="ml-sidebar-desc">Select an authorized identity profile for demonstration purposes. (PIN: pass123)</p>
+        
+        <div class="ml-profiles-list">
+          <div class="ml-profile-card" onclick="Auth.fillDemo('admin@aura.com','pass123')">
+            <div class="ml-pi">⚡</div>
+            <div class="ml-pt">
+              <span class="ml-pn">System Admin</span>
+              <span class="ml-pr">Root Access</span>
+            </div>
+          </div>
+          <div class="ml-profile-card" onclick="Auth.fillDemo('alice.johnson@aura.com','pass123')">
+            <div class="ml-pi">👥</div>
+            <div class="ml-pt">
+              <span class="ml-pn">Alice Johnson</span>
+              <span class="ml-pr">Human Resources</span>
+            </div>
+          </div>
+          <div class="ml-profile-card" onclick="Auth.fillDemo('david.kim@aura.com','pass123')">
+            <div class="ml-pi">💰</div>
+            <div class="ml-pt">
+              <span class="ml-pn">David Kim</span>
+              <span class="ml-pr">Financial Operations</span>
+            </div>
+          </div>
+          <div class="ml-profile-card" onclick="Auth.fillDemo('eve.torres@aura.com','pass123')">
+            <div class="ml-pi">📱</div>
+            <div class="ml-pt">
+              <span class="ml-pn">Eve Torres</span>
+              <span class="ml-pr">Product Management</span>
+            </div>
+          </div>
+          <div class="ml-profile-card" onclick="Auth.fillDemo('irene.chen@aura.com','pass123')">
+            <div class="ml-pi">📦</div>
+            <div class="ml-pt">
+              <span class="ml-pn">Irene Chen</span>
+              <span class="ml-pr">Logistics & Supply</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CUSTOMER DOMAIN SELECTION
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-customer-domain" class="page">
+  <div class="modern-domain-bg"></div>
+  <div class="modern-domain-container">
+    <div class="modern-top-bar">
+      <button class="modern-back-btn" onclick="App.showLanding()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Return
+      </button>
+      <div class="modern-context-pill">PUBLIC / PROVIDER SELECTION</div>
+    </div>
+    
+    <div class="modern-header-section">
+      <h2>Select Your Provider</h2>
+      <p>Choose the domain hosting your customer account to proceed.</p>
+    </div>
+
+    <div class="modern-domain-grid" id="customer-domain-grid">
+      <!-- injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CUSTOMER LOGIN PAGE
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-customer-login" class="page">
+  <div class="modern-login-wrapper">
+    <div class="modern-login-panel customer-panel">
+      <!-- Left side: Login Form -->
+      <div class="ml-form-side">
+        <button class="ml-back-link" onclick="CustomerApp.showCustomerDomainSelect()">
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Change Provider
+        </button>
+        
+        <div class="ml-domain-context" id="customer-login-domain-badge">
+          <span id="customer-login-domain-icon" class="ml-ctx-icon">🏦</span>
+          <span id="customer-login-domain-name" class="ml-ctx-name">Banking</span>
+        </div>
+
+        <div class="ml-headers">
+          <h2>Customer Portal</h2>
+          <p>Access your personal services and track your ongoing applications.</p>
+        </div>
+
+        <div class="ml-form">
+          <div class="ml-input-group">
+            <label>Customer Email</label>
+            <div class="ml-input-wrapper">
+               <svg class="ml-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+               <input type="text" id="inp-customer-email" placeholder="sarah.connor@client.com" autocomplete="username"/>
+            </div>
+          </div>
+          <div class="ml-input-group">
+            <label>Password</label>
+            <div class="ml-input-wrapper">
+               <svg class="ml-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+               <input type="password" id="inp-customer-password" placeholder="••••••••" autocomplete="current-password"/>
+               <button type="button" class="ml-toggle-pass" onclick="CustomerApp.togglePass()">👁</button>
+            </div>
+          </div>
+          <div id="customer-login-error" class="ml-error hidden"></div>
+          
+          <button class="ml-submit-btn customer-btn" onclick="CustomerApp.login()">
+            Log In to Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right side: Quick Access / Demo Accounts — all 10 customers -->
+      <div class="ml-sidebar-side customer-sidebar">
+        <div class="ml-sidebar-header">
+           <span class="ml-pulse-dot"></span>
+           <h3>Demo Identities</h3>
+        </div>
+        <p class="ml-sidebar-desc">All customers use <b>pass123</b>. Click to auto-fill.</p>
+        
+        <div class="ml-profiles-list" style="max-height:420px;overflow-y:auto;padding-right:4px;">
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='sarah.connor@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#1a73e8,#0d47a1);">S</div>
+            <div class="ml-pt"><span class="ml-pn">Sarah Connor</span><span class="ml-pr">Checking • Gold</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='john.doe@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#7c3aed,#4c1d95);">J</div>
+            <div class="ml-pt"><span class="ml-pn">John Doe</span><span class="ml-pr">Business • Platinum</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='alice.smith@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#059669,#064e3b);">A</div>
+            <div class="ml-pt"><span class="ml-pn">Alice Smith</span><span class="ml-pr">Investment • Platinum</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='bob.johnson@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#d97706,#92400e);">B</div>
+            <div class="ml-pt"><span class="ml-pn">Bob Johnson</span><span class="ml-pr">Savings • Standard</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='carol.white@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#db2777,#831843);">C</div>
+            <div class="ml-pt"><span class="ml-pn">Carol White</span><span class="ml-pr">Checking • Silver</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='david.brown@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#0891b2,#164e63);">D</div>
+            <div class="ml-pt"><span class="ml-pn">David Brown</span><span class="ml-pr">Business • Platinum</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='eve.davis@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#7c3aed,#c026d3);">E</div>
+            <div class="ml-pt"><span class="ml-pn">Eve Davis</span><span class="ml-pr">Savings • Silver</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='frank.wilson@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#065f46,#059669);">F</div>
+            <div class="ml-pt"><span class="ml-pn">Frank Wilson</span><span class="ml-pr">Savings • Gold</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='grace.lee@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#b45309,#d97706);">G</div>
+            <div class="ml-pt"><span class="ml-pn">Grace Lee</span><span class="ml-pr">Checking • Standard</span></div>
+          </div>
+          <div class="ml-profile-card" onclick="document.getElementById('inp-customer-email').value='henry.clark@client.com'; document.getElementById('inp-customer-password').value='pass123'">
+            <div class="ml-pi" style="background:linear-gradient(135deg,#1e40af,#1d4ed8);">H</div>
+            <div class="ml-pt"><span class="ml-pn">Henry Clark</span><span class="ml-pr">Business • Platinum</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CUSTOMER APP SHELL
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-customer-app" class="page">
+  <div class="main-wrapper" style="width: 100%; height: 100vh; display: flex; flex-direction: column; background: var(--bg-panel); overflow:hidden;">
+    
+    <header class="app-header" style="height: 80px; flex-shrink: 0; justify-content: space-between; border-bottom: 1px solid var(--glass-border);">
+      <div class="header-left" style="gap:20px;">
+        <div class="user-avatar" id="cust-header-avatar" style="width:50px; height:50px; font-size:24px;">S</div>
+        <div>
+          <h2 class="header-dept" id="cust-header-name">Sarah Connor</h2>
+          <span class="header-section" id="cust-header-company">Individual Account</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="header-domain-chip" id="cust-app-domain-badge">
+          <span id="cust-app-domain-icon">🏦</span>
+          <span id="cust-app-domain-name">Banking Services</span>
+        </div>
+        <button class="btn-secondary" onclick="CustomerApp.logout()">🚪 Sign Out</button>
+      </div>
+    </header>
+
+    <main class="content-area" id="customer-content-area" style="flex: 1; overflow-y: auto; background: rgba(0,0,0,0.4);">
+      <!-- Customer Interactive UI injected here -->
+    </main>
+
+    <!-- Loan Process Window (Overlay) -->
+    <div id="loan-modal" class="modal-overlay hidden">
+      <div class="modal-card" style="max-width: 500px;">
+        <div class="modal-header">
+          <h3 id="loan-modal-title">Loan Application</h3>
+          <button class="btn-close" onclick="CustomerApp.closeLoanModal()">×</button>
+        </div>
+        <div class="modal-body" id="loan-modal-body">
+          <div class="form-group">
+            <label>Amount Requested ($)</label>
+            <input type="number" id="loan-amt" placeholder="e.g. 5000" min="500" step="100"/>
+          </div>
+          <div class="form-group">
+            <label>Term (Months)</label>
+            <select id="loan-term">
+              <option value="12">12 Months (1 Year)</option>
+              <option value="24">24 Months (2 Year)</option>
+              <option value="36" selected>36 Months (3 Year)</option>
+              <option value="48">48 Months (4 Year)</option>
+              <option value="60">60 Months (5 Year)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Purpose of Loan</label>
+            <input type="text" id="loan-purpose" placeholder="e.g. Home Renovation, Business Capital"/>
+          </div>
+          <div class="loan-process-steps">
+            <div class="step active" id="step-1">1. Submission</div>
+            <div class="step" id="step-2">2. Ops Review</div>
+            <div class="step" id="step-3">3. Finance Review</div>
+            <div class="step" id="step-4">4. Final Result</div>
+          </div>
+          <div id="loan-error" class="login-error hidden" style="margin-top:15px"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="CustomerApp.closeLoanModal()">Cancel</button>
+          <button class="btn-primary" id="btn-loan-submit" onclick="CustomerApp.submitLoan()">Submit Application</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MAIN APP SHELL
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-app" class="page">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <a onclick="WelcomeSplash.show(); return false;" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; cursor:pointer;" title="Return to Home Dashboard">
+        <span class="brand-icon">⚡</span>
+        <div class="brand-text">
+          <span class="brand-name">Aura Lite</span>
+          <span class="brand-domain" id="sb-domain-name">Banking</span>
+        </div>
+      </a>
+      <button class="sidebar-toggle" id="sidebar-toggle" onclick="App.toggleSidebar()">☰</button>
+    </div>
+
+    <div class="sidebar-user" id="sidebar-user">
+      <div class="user-avatar" id="sb-avatar">A</div>
+      <div class="user-info">
+        <span class="user-name" id="sb-user-name">Admin User</span>
+        <span class="user-role-badge" id="sb-user-role">Administrator</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <!-- Departments injected by JS -->
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="sb-btn" id="btn-ai-hub" onclick="Analytics.openIntelligenceHub()">
+        <span class="sb-icon">🧠</span><span class="sb-label">Intelligence Hub</span>
+      </button>
+      <button class="sb-btn" id="btn-ai-chat" onclick="AIChat.open()">
+        <span class="sb-icon">🤖</span><span class="sb-label">AI Assistant</span>
+        <span class="ai-pulse"></span>
+      </button>
+      <div class="sidebar-item" onclick="App.setSection('automation')">
+        <span class="sb-icon">🤖</span> <span class="sb-label">Automation</span>
+      </div>
+      <div class="sidebar-item" id="sb-workflows" onclick="App.setSection('workflows')">
+        <span class="sb-icon">🔄</span> <span class="sb-label">Processes</span>
+      </div>
+      <div class="sidebar-item" onclick="App.setSection('reports')">
+        <span class="sb-icon">📊</span> <span class="sb-label">Reports</span>
+      </div>
+      <div class="sidebar-item" id="sb-communication" onclick="App.setSection('communication')">
+        <span class="sb-icon">📡</span> <span class="sb-label">Communication</span>
+        <span class="ai-pulse" id="comm-active-pulse" style="display:none;"></span>
+      </div>
+      <div class="sidebar-item" id="sb-my-impact" onclick="App.setSection('my_impact')">
+        <span class="sb-icon">📈</span> <span class="sb-label">My AI Impact</span>
+      </div>
+      <button class="sb-btn" onclick="RPA.open()">
+        <span class="sb-icon">⚙️</span><span class="sb-label">RPA Builder</span>
+      </button>
+      <button class="sb-btn" id="btn-perf-monitor" onclick="PerformanceUI.open()" style="display:none;">
+        <span class="sb-icon">⚡</span><span class="sb-label">Performance Core</span>
+      </button>
+      <button class="sb-btn danger" onclick="Auth.logout()">
+        <span class="sb-icon">🚪</span><span class="sb-label">Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-wrapper" id="main-wrapper">
+
+    <!-- Header -->
+    <header class="app-header" id="app-header">
+      <div class="header-left">
+        <h2 class="header-dept" id="header-dept-name">Human Resources</h2>
+        <span class="header-section" id="header-section-name">Dashboard</span>
+        <button class="btn-secondary" style="margin-left:15px; padding:4px 10px; font-size:12px; display:none" id="btn-add-widget" onclick="Analytics.showWidgetMenu()">➕ Add Widget</button>
+      </div>
+      <div class="header-right">
+        <div class="header-search">
+          <span>🔍</span>
+          <input type="text" placeholder="Search anything..." id="global-search" onkeyup="App.globalSearch(this.value)"/>
+        </div>
+        <button class="header-btn" id="btn-smart-help" style="border:1px solid var(--domain-color); color:var(--domain-color); display:flex; align-items:center; gap:5px; border-radius:15px; padding:4px 10px; width:auto; font-size:12px; font-weight:600; background:rgba(255,255,255,0.05);" onclick="AIChat.openSmartHelp()">
+          🪄 Smart Help
+        </button>
+        <button class="header-btn" id="btn-notifications" onclick="App.toggleNotifications()" title="Notifications">
+          🔔<span class="notif-dot hidden"></span>
+        </button>
+        <div id="notif-dropdown" class="notif-dropdown hidden">
+          <div class="notif-header">
+            <h4>Notifications</h4>
+            <button onclick="App.markAllNotificationsRead()">Mark all as read</button>
+          </div>
+          <div id="notif-list" class="notif-list">
+            <div class="notif-empty">No new notifications</div>
+          </div>
+        </div>
+        <div class="header-domain-chip" id="header-domain-chip">
+          <span id="hdr-domain-icon">🏦</span>
+          <span id="hdr-domain-name">Banking</span>
+        </div>
+        <div class="header-avatar" id="header-avatar">A</div>
+      </div>
+    </header>
+
+    <!-- Department Sub-Nav -->
+    <div class="dept-subnav" id="dept-subnav">
+      <!-- Sections injected per department -->
+    </div>
+
+    <!-- Content Area -->
+    <main class="content-area" id="content-area">
+      <!-- Dynamic content loaded here -->
+    </main>
+
+  </div><!-- end main-wrapper -->
+
+</div><!-- end page-app -->
+
+<!-- ══════════════════════════════════════════════════════════════
+     AI CHAT PANEL (overlay)
+═════════════════════════════════════════════════════════════════ -->
+<div id="ai-chat-panel" class="ai-panel hidden">
+  <div class="ai-panel-header">
+    <div class="ai-panel-title">
+      <div class="ai-orb"></div>
+      <div>
+        <span class="ai-name">AURA AI</span>
+        <span class="ai-status">Intelligence Engine • Online</span>
+      </div>
+    </div>
+    <div class="ai-header-actions">
+      <button class="ai-hdr-btn" onclick="AIChat.clearHistory()" title="Clear">🗑️</button>
+      <button class="ai-hdr-btn" onclick="AIChat.close()" title="Close">✕</button>
+    </div>
+  </div>
+  <div class="ai-chat-modes">
+    <button class="ai-mode active" data-mode="chat" onclick="AIChat.setMode('chat')">💬 Chat</button>
+    <button class="ai-mode" data-mode="dss" onclick="AIChat.setMode('dss')">🧠 DSS</button>
+    <button class="ai-mode" data-mode="whatif" onclick="AIChat.setMode('whatif')">🔮 What-If</button>
+    <button class="ai-mode" data-mode="scenario" onclick="AIChat.setMode('scenario')">📐 Scenario</button>
+  </div>
+  <div class="ai-messages" id="ai-messages">
+    <div class="ai-msg bot">
+      <div class="ai-msg-avatar">🤖</div>
+      <div class="ai-msg-bubble">
+        <strong>Hello! I'm AURA AI</strong> — your enterprise intelligence assistant.<br/><br/>
+        I can analyze your data, support decisions, run what-if simulations, and compare scenarios. 
+        Try: <em>"Analyze HR performance"</em> or <em>"What if revenue increases by 20%?"</em>
+      </div>
+    </div>
+  </div>
+  <div class="ai-suggestions" id="ai-suggestions">
+    <button class="ai-sugg" onclick="AIChat.sendSuggestion(this)">📊 Analyze operations</button>
+    <button class="ai-sugg" onclick="AIChat.sendSuggestion(this)">🔮 What if revenue +20%?</button>
+    <button class="ai-sugg" onclick="AIChat.sendSuggestion(this)">🧠 Recommend a decision</button>
+    <button class="ai-sugg" onclick="AIChat.sendSuggestion(this)">📐 Compare scenarios</button>
+  </div>
+  <div class="ai-input-bar">
+    <textarea id="ai-input" placeholder="Ask anything about your enterprise data..." rows="1"
+      onkeydown="AIChat.handleKey(event)"></textarea>
+    <button class="ai-send-btn" id="ai-send-btn" onclick="AIChat.send()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ADMIN DATA PANEL (overlay)
+═════════════════════════════════════════════════════════════════ -->
+<div id="admin-panel" class="overlay-panel hidden">
+  <div class="overlay-header">
+    <h3>🗄️ Database Admin Panel</h3>
+    <div class="overlay-header-right">
+      <select id="admin-domain-select" onchange="AdminPanel.loadDomain(this.value)">
+        <option value="banking">🏦 Banking</option>
+        <option value="healthcare">🏥 Healthcare</option>
+        <option value="education">🎓 Education</option>
+        <option value="manufacturing">🏭 Manufacturing</option>
+      </select>
+      <button class="overlay-close" onclick="AdminPanel.close()">✕</button>
+    </div>
+  </div>
+  <div class="overlay-body">
+    <div class="admin-layout">
+      <div class="admin-tables-list" id="admin-tables-list">
+        <!-- table list injected -->
+      </div>
+      <div class="admin-content" id="admin-content">
+        <div class="admin-welcome">
+          <span>🗄️</span>
+          <p>Select a table from the left to browse and manage records</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PERFORMANCE MONITOR PANEL (overlay)
+═════════════════════════════════════════════════════════════════ -->
+<div id="perf-panel" class="overlay-panel hidden">
+  <div class="overlay-header">
+    <h3>⚡ System Performance Core</h3>
+    <div class="overlay-header-right">
+      <button class="btn-primary" onclick="PerformanceUI.clearCache()" style="padding:4px 12px; font-size:12px;">🧹 Clear Cache</button>
+      <button class="overlay-close" onclick="PerformanceUI.close()">✕</button>
+    </div>
+  </div>
+  <div class="overlay-body" style="padding: 20px; overflow-y:auto;">
+    
+    <div class="grid-4" style="margin-bottom: 20px;">
+      <div class="kpi-card"><div class="kpi-label">Avg Latency</div><div class="kpi-val" id="perf-avg-ms">- ms</div></div>
+      <div class="kpi-card"><div class="kpi-label">p95 Latency</div><div class="kpi-val" id="perf-p95-ms">- ms</div></div>
+      <div class="kpi-card"><div class="kpi-label">Request Vol</div><div class="kpi-val" id="perf-req-vol">-</div></div>
+      <div class="kpi-card"><div class="kpi-label">Error Rate</div><div class="kpi-val" id="perf-err-rate">-%</div></div>
+    </div>
+
+    <div class="grid-2" style="grid-template-columns: 2fr 1fr; gap: 20px;">
+      <div class="glass-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+          <h3 style="font-size:16px;">🔥 Slow Operations & Anomalies</h3>
+          <span style="font-size:11px; color:var(--text-muted)">Operations > 400ms</span>
+        </div>
+        <div id="perf-slow-list" style="display:flex; flex-direction:column; gap:8px;">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <div class="glass-panel">
+        <h3 style="font-size:16px; margin-bottom:15px;">🤖 AI Optimizer</h3>
+        <div id="perf-ai-optimizer" style="font-size:13px; color:var(--text-muted); line-height:1.6; padding: 15px; border:1px dashed var(--domain-color); border-radius:8px; background:rgba(26,115,232,0.05);">
+          Running analysis on bottlenecks...
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SESSION EXPIRED MODAL (overlay)
+═════════════════════════════════════════════════════════════════ -->
+<div id="session-modal" class="modal-overlay hidden" style="z-index: 9999;">
+  <div class="modal-card" style="max-width: 400px; text-align:center;">
+    <div style="font-size: 40px; margin-bottom:15px;">⏳</div>
+    <h3 style="margin-bottom:10px;">Session Expired</h3>
+    <p style="color:var(--text-muted); margin-bottom:20px; font-size:14px; line-height:1.5;">
+      Your authentication has timed out for security reasons. Please copy any unsaved work before returning to the login screen.
+    </p>
+    <button class="btn-primary" style="width:100%" onclick="document.getElementById('session-modal').classList.add('hidden'); window.App ? window.App.showLogin() : location.hash='#login';">
+      Return to Login
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     RPA BUILDER (overlay)
+═════════════════════════════════════════════════════════════════ -->
+<div id="rpa-panel" class="overlay-panel hidden">
+  <div class="overlay-header">
+    <h3>⚙️ RPA Workflow Builder</h3>
+    <button class="overlay-close" onclick="RPA.close()">✕</button>
+  </div>
+  <div class="overlay-body">
+    <div class="rpa-layout">
+      <div class="rpa-sidebar">
+        <button class="btn-primary" onclick="RPA.create()" style="width:100%;margin-bottom:1rem">
+          + Create Automation
+        </button>
+        <div id="rpa-list">
+          <!-- injected -->
+        </div>
+      </div>
+      <div class="rpa-content" id="rpa-content">
+        <div class="rpa-welcome">
+          <span>🤖</span>
+          <p>Create a new automation or select one from the list</p>
+          <small>Record user actions, save workflows, and monitor execution</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     RECORD MODAL
+═════════════════════════════════════════════════════════════════ -->
+<div id="record-modal" class="modal hidden">
+  <div class="modal-backdrop" onclick="Modal.close()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-title">Record</h3>
+      <button class="modal-close" onclick="Modal.close()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <!-- form injected -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="Modal.close()">Cancel</button>
+      <button class="btn-primary" id="modal-save-btn" onclick="Modal.save()">Save Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     WORKFLOW HISTORY MODAL
+     ═════════════════════════════════════════════════════════════════ -->
+<div id="workflow-modal" class="modal hidden">
+  <div class="modal-backdrop" onclick="App.closeWorkflowModal()"></div>
+  <div class="modal-box" style="max-width: 600px;">
+    <div class="modal-header">
+      <h3 id="wf-modal-title">Process History</h3>
+      <button class="modal-close" onclick="App.closeWorkflowModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="wf-history-timeline" class="wf-timeline">
+        <!-- timeline injected here -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="App.closeWorkflowModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     WIDGET MENU MODAL
+     ═════════════════════════════════════════════════════════════════ -->
+<div id="widget-modal" class="modal hidden">
+  <div class="modal-backdrop" onclick="Analytics.closeWidgetMenu()"></div>
+  <div class="modal-box" style="max-width: 400px;">
+    <div class="modal-header">
+      <h3>Add a Widget</h3>
+      <button class="modal-close" onclick="Analytics.closeWidgetMenu()">✕</button>
+    </div>
+    <div class="modal-body" style="display:flex; flex-direction:column; gap:10px;">
+      <button class="btn-secondary" onclick="Analytics.addWidget('primary')">📈 Revenue Intelligence</button>
+      <button class="btn-secondary" onclick="Analytics.addWidget('secondary')">📊 Task Distribution</button>
+      <button class="btn-secondary" onclick="Analytics.addWidget('special')">🧠 Int. Analysis / Hub</button>
+      <button class="btn-primary" onclick="Analytics.addWidget('geoheatmap')" style="margin-top:10px;">📍 Geo Heatmap (GPS)</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INTERACTIVE KPI EXPLANATION MODAL (AI EDUCATIONAL)
+     ═════════════════════════════════════════════════════════════════ -->
+<div id="kpi-explain-modal" class="modal hidden">
+  <div class="modal-backdrop" onclick="KPIExplainer.close()"></div>
+  <div class="modal-box" style="max-width: 500px; padding:0;">
+    <div class="modal-header" style="background:var(--bg-card); padding:20px; border-bottom:1px solid var(--glass-border);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <span style="font-size:12px; color:var(--domain-color); text-transform:uppercase; letter-spacing:1px; font-weight:700;">Metric Explanation</span>
+          <h3 id="kpi-explain-title" style="margin:5px 0 0 0; font-size:20px;">KPI Name</h3>
+        </div>
+        <button class="modal-close" onclick="KPIExplainer.close()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body" style="padding:20px; display:flex; flex-direction:column; gap:15px;">
+      
+      <div>
+        <h4 style="font-size:12px; color:var(--text-muted); text-transform:uppercase; margin-bottom:5px;">What is this?</h4>
+        <p id="kpi-explain-def" style="font-size:14px; line-height:1.5;"></p>
+      </div>
+      
+      <div>
+        <h4 style="font-size:12px; color:var(--text-muted); text-transform:uppercase; margin-bottom:5px;">Why is it important?</h4>
+        <p id="kpi-explain-purpose" style="font-size:14px; line-height:1.5;"></p>
+      </div>
+      
+      <div style="display:flex; gap:15px; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px;">
+        <div style="flex:1;">
+          <h4 style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Formula</h4>
+          <code id="kpi-explain-formula" style="font-family:monospace; color:var(--domain-color); font-size:12px; background:rgba(255,255,255,0.05); padding:2px 5px; border-radius:4px;"></code>
+        </div>
+        <div style="flex:1;">
+          <h4 style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Data Source</h4>
+          <span id="kpi-explain-source" style="font-size:12px; background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:10px;"></span>
+        </div>
+      </div>
+      
+      <!-- AI INSIGHT BOX -->
+      <div style="margin-top:15px; border:1px solid var(--domain-color); border-radius:10px; padding:15px; background:rgba(var(--domain-color-rgb), 0.05); position:relative; overflow:hidden;">
+        <div class="ai-pulse" style="position:absolute; top:20px; right:20px;"></div>
+        <p id="kpi-explain-insight" style="font-size:14px; line-height:1.6; margin:0;"></p>
+      </div>
+      
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:5px;">
+        <button class="btn-secondary" style="font-size:11px; padding:4px 10px;" onclick="KPIExplainer.toggleLang('en')">English</button>
+        <button class="btn-secondary" style="font-size:11px; padding:4px 10px;" onclick="KPIExplainer.toggleLang('ar')">عربي</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     TOAST NOTIFICATIONS
+═════════════════════════════════════════════════════════════════<!-- ══════════════════════════════════════════════════════════════
+     SYSTEM ADMIN CINEMATIC LOGIN
+═════════════════════════════════════════════════════════════════ -->
+<div id="page-admin-login" class="page">
+  <canvas id="bh-admin-login-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;"></canvas>
+  <div class="glass-panel" style="position:absolute; z-index:2; top:50%; left:50%; transform:translate(-50%, -50%); width:320px; height:320px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:rgba(5,5,10,0.8); backdrop-filter:blur(20px); border:1px solid rgba(129,140,248,0.3); box-shadow:0 0 100px rgba(129,140,248,0.2), inset 0 0 20px rgba(129,140,248,0.1);">
+    <div style="text-align:center; margin-bottom:20px;">
+       <h2 style="color:#818cf8; margin:0; font-size:24px; text-transform:uppercase; letter-spacing:4px; font-weight:800;">Override</h2>
+       <p style="color:#8892b0; font-size:10px; margin-top:5px; text-transform:uppercase; letter-spacing:2px;">Global Command</p>
+    </div>
+    <div style="width:75%;">
+      <input type="text" id="admin-user" class="aura-input" value="baha.aura@admin" readonly style="margin-bottom:10px; text-align:center; background:rgba(255,255,255,0.03); color:#fff; cursor:default;" />
+      <input type="password" id="admin-pass" class="aura-input" value="bahaa123" readonly style="margin-bottom:25px; text-align:center; background:rgba(255,255,255,0.03); color:#818cf8; cursor:default;" />
+      <button class="btn-primary" style="width:100%; border-radius:30px; background:linear-gradient(90deg, #6366f1, #a855f7); color:#fff; border:none; padding:14px; font-weight:700; text-transform:uppercase; letter-spacing:2px; font-size:12px; cursor:pointer;" onclick="Auth.submitAdminLogin()">Engage</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SYSTEM INTELLIGENCE DASHBOARD (MASTER OVERRIDE)
+═════════════════════════════════════════════════════════════════ -->
+<style>
+/* ── Scoped System Admin Layout (sa- prefix, no conflicts) ───── */
+#page-system-admin { display:none; }
+#page-system-admin.active { display:flex !important; flex-direction:column; }
+
+.sa-shell {
+  display:flex !important;
+  flex-direction:row !important;
+  width:100%; height:100vh;
+  background:#050509;
+  overflow:hidden;
+  font-family:'Inter',system-ui,sans-serif;
+}
+
+.sa-sidebar {
+  width:230px !important;
+  min-width:230px !important;
+  max-width:230px !important;
+  height:100vh;
+  background:#09090f;
+  border-right:1px solid rgba(129,140,248,0.1);
+  display:flex;
+  flex-direction:column;
+  flex-shrink:0;
+  z-index:10;
+}
+.sa-sidebar-brand {
+  padding:24px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.sa-brand-name {
+  font-size:18px; font-weight:800; letter-spacing:1px;
+  color:#818cf8; text-transform:uppercase;
+}
+.sa-brand-tag {
+  display:block; font-size:9px; color:#475569;
+  text-transform:uppercase; letter-spacing:2px; margin-top:4px;
+}
+.sa-nav { flex:1; padding:16px 12px; display:flex; flex-direction:column; gap:4px; }
+.sa-nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:8px;
+  font-size:13px; color:#94a3b8; cursor:pointer;
+  border:none; background:transparent; width:100%;
+  text-align:left; transition:all 0.2s;
+}
+.sa-nav-item:hover { background:rgba(255,255,255,0.04); color:#e2e8f0; }
+.sa-nav-item.active {
+  background:rgba(129,140,248,0.12);
+  color:#818cf8; font-weight:600;
+}
+.sa-nav-item .sa-icon { font-size:16px; }
+.sa-sidebar-footer {
+  padding:16px 12px;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+.sa-logout {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:8px;
+  font-size:13px; color:#f87171; cursor:pointer;
+  border:none; background:transparent; width:100%;
+  text-align:left; transition:all 0.2s;
+}
+.sa-logout:hover { background:rgba(248,113,113,0.08); }
+
+.sa-main {
+  flex:1 !important;
+  min-width:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  height:100vh !important;
+}
+
+.sa-topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 32px;
+  height:64px;
+  min-height:64px;
+  max-height:64px;
+  background:rgba(9,9,15,0.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  flex-shrink:0;
+}
+.sa-topbar-title { font-size:18px; font-weight:300; color:#e2e8f0; }
+.sa-topbar-right { display:flex; align-items:center; gap:16px; }
+.sa-avatar {
+  width:36px; height:36px; border-radius:50%;
+  background:linear-gradient(135deg,#6366f1,#a855f7);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:13px; color:#fff;
+  flex-shrink:0;
+}
+.sa-user-name { font-size:13px; font-weight:600; color:#e2e8f0; }
+.sa-user-role { font-size:11px; color:#818cf8; display:block; }
+
+.sa-scroll {
+  flex:1; overflow-y:auto; padding:32px;
+}
+
+/* KPI Cards */
+.sa-kpi-grid {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+  margin-bottom:28px;
+}
+.sa-kpi {
+  background:#0e0e1a;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:12px;
+  padding:18px 20px;
+  transition:border-color 0.2s;
+}
+.sa-kpi:hover { border-color:rgba(129,140,248,0.3); }
+.sa-kpi-label {
+  font-size:10px; text-transform:uppercase; letter-spacing:1.5px;
+  color:#64748b; margin-bottom:8px;
+}
+.sa-kpi-value { font-size:26px; font-weight:700; color:#e2e8f0; }
+.sa-kpi.accent { border-color:rgba(129,140,248,0.25); background:rgba(129,140,248,0.04); }
+.sa-kpi.accent .sa-kpi-value { color:#818cf8; }
+.sa-kpi.green { border-color:rgba(52,211,153,0.25); background:rgba(52,211,153,0.04); }
+.sa-kpi.green .sa-kpi-value { color:#34d399; }
+
+/* Chart Panels */
+.sa-charts-row { display:grid; grid-template-columns:2fr 1fr; gap:20px; margin-bottom:20px; }
+.sa-charts-bot { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.sa-panel {
+  background:#0e0e1a;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:12px;
+  padding:24px;
+  display:flex; flex-direction:column;
+}
+.sa-panel-title {
+  font-size:12px; text-transform:uppercase; letter-spacing:1.5px;
+  color:#818cf8; margin-bottom:18px; font-weight:600;
+}
+.sa-chart-wrap { flex:1; min-height:220px; position:relative; }
+
+/* Feed */
+.sa-feed { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; max-height:280px; }
+.sa-feed-item {
+  padding:8px 10px;
+  border-left:2px solid rgba(129,140,248,0.5);
+  background:rgba(129,140,248,0.03);
+  border-radius:0 6px 6px 0;
+}
+.sa-feed-time { font-size:9px; color:#818cf8; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+.sa-feed-msg { font-size:11px; color:#cbd5e1; font-family:monospace; word-break:break-word; }
+
+/* Eat-screen overlay */
+#sa-eat-overlay {
+  position:fixed; inset:0; z-index:9999;
+  pointer-events:none;
+  display:flex; align-items:center; justify-content:center;
+}
+#sa-eat-overlay::after {
+  content:'';
+  position:absolute;
+  width:0; height:0;
+  border-radius:50%;
+  background:radial-gradient(circle, #0a0a1a 30%, #1a0a3a 60%, #050509 100%);
+  transition:none;
+}
+#sa-eat-overlay.eating::after {
+  width:300vmax; height:300vmax;
+  transition: width 1.4s cubic-bezier(0.7,0,0.9,1), height 1.4s cubic-bezier(0.7,0,0.9,1);
+}
+
+/* Project Log */
+.sa-log-wrap { display:flex; flex-direction:column; gap:16px; }
+.sa-log-section { background:#0e0e1a; border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:24px; }
+.sa-log-section h3 { margin:0 0 16px; font-size:14px; color:#818cf8; text-transform:uppercase; letter-spacing:1px; }
+.sa-log-entry { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.sa-log-entry:last-child { border-bottom:none; }
+.sa-log-dot { width:8px; height:8px; border-radius:50%; background:#818cf8; margin-top:5px; flex-shrink:0; }
+.sa-log-dot.green { background:#34d399; }
+.sa-log-dot.yellow { background:#fbbf24; }
+.sa-log-txt { font-size:12px; color:#cbd5e1; line-height:1.6; }
+.sa-log-txt strong { color:#e2e8f0; }
+.sa-log-txt em { color:#64748b; font-style:normal; font-size:10px; }
+</style>
+
+<div id="page-system-admin" class="page">
+  <div class="sa-shell">
+    <!-- Sidebar -->
+    <aside class="sa-sidebar">
+      <div class="sa-sidebar-brand" style="cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease;" onclick="Auth.logout()" onmouseover="this.style.transform='scale(1.02)'; this.style.opacity='0.9'" onmouseout="this.style.transform='scale(1)'; this.style.opacity='1'">
+        <div class="sa-brand-name">Action<strong>Aura</strong></div>
+        <span class="sa-brand-tag">Global Intelligence</span>
+      </div>
+      <nav class="sa-nav">
+        <button class="sa-nav-item active" id="sa-nav-cmd" onclick="SystemAdmin.showView('dashboard')">
+          <span class="sa-icon">🌐</span> Command Center
+        </button>
+        <button class="sa-nav-item" id="sa-nav-log" onclick="SystemAdmin.showView('log')">
+          <span class="sa-icon">📋</span> Project Log
+        </button>
+        <button class="sa-nav-item" onclick="SystemAdmin.refreshData()">
+          <span class="sa-icon">🔄</span> Refresh Data
+        </button>
+      </nav>
+      <div class="sa-sidebar-footer">
+        <button class="sa-logout" onclick="Auth.logout()">
+          <span class="sa-icon">🚪</span> Terminate Session
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="sa-main">
+      <!-- Topbar -->
+      <header class="sa-topbar">
+        <span class="sa-topbar-title" id="sa-topbar-title">Intelligence Dashboard</span>
+        <div class="sa-topbar-right">
+          <div style="text-align:right;">
+            <span class="sa-user-name">Baha Aura</span>
+            <span class="sa-user-role">Master Operator</span>
+          </div>
+          <div class="sa-avatar">BA</div>
+        </div>
+      </header>
+
+      <!-- Scrollable Content: Dashboard -->
+      <div class="sa-scroll" id="sys-admin-content" style="display:block;">
+        <!-- Rendered by system_admin.js -->
+      </div>
+      <!-- Scrollable Content: Project Log -->
+      <div class="sa-scroll" id="sys-admin-log" style="display:none;">
+        <!-- Rendered by system_admin.js showView('log') -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Eat-Screen Black Hole Overlay -->
+<div id="sa-eat-overlay"></div>
+
+<!-- Toast Notifications -->
+<div id="toast-container"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SUBSYSTEM AI CHAT PANEL
+═════════════════════════════════════════════════════════════════ -->
+<div id="sub-ai-panel" class="ai-panel hidden sub-ai-panel">
+  <div class="ai-panel-header">
+    <div class="ai-panel-title">
+      <div class="ai-orb" style="background:var(--sub-accent)"></div>
+      <div>
+        <span class="ai-name">SUBSYSTEM AI</span>
+        <span class="ai-status">Intelligence Engine • Online</span>
+      </div>
+    </div>
+    <div class="ai-header-actions">
+      <button class="ai-hdr-btn" onclick="SubAI.close()" title="Close">✕</button>
+    </div>
+  </div>
+  <div class="ai-messages" id="sub-ai-messages">
+    <div class="ai-msg bot">
+      <div class="ai-msg-avatar">🤖</div>
+      <div class="ai-msg-bubble"><strong>Subsystem AI Online</strong> — Select a subsystem to get started.</div>
+    </div>
+  </div>
+  <div class="ai-input-bar">
+    <textarea id="sub-ai-input" placeholder="Ask the subsystem AI..." rows="1"
+      onkeydown="SubAI.handleKey(event)"></textarea>
+    <button class="ai-send-btn" onclick="SubAI.send()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/utils.js?v=4.1"></script>
+<script src="/static/js/auth.js?v=4.1"></script>
+<script src="/static/js/analytics.js?v=4.1"></script>
+<script src="/static/js/ai-chat.js?v=4.1"></script>
+<script src="/static/js/rpa.js?v=4.1"></script>
+<script src="/static/js/customer.js?v=4.1"></script>
+<script src="/static/js/communication.js?v=4.1"></script>
+<script src="/static/js/reporting.js?v=4.1"></script>
+<script src="/static/js/blackhole.js?v=4.1"></script>
+<script src="/static/js/kpi-explainer.js?v=4.1"></script>
+<script src="/static/js/subsystem-core.js?v=4.1"></script>
+<script src="/static/js/subsystem-accounting.js?v=4.1"></script>
+<script src="/static/js/subsystem-hr.js?v=4.1"></script>
+<script src="/static/js/subsystem-inventory.js?v=4.1"></script>
+<script src="/static/js/campaigns.js?v=4.1"></script>
+<script src="/static/js/intelligence_hub.js?v=1.0"></script>
+<script src="/static/js/user_portal.js?v=1.0"></script>
+<script src="/static/js/system_admin.js?v=1.0"></script>
+<script src="/static/js/app.js?v=4.1"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Enforce welcome splash on every fresh session load
+    const splashSeen = sessionStorage.getItem('aura_splash_seen');
+    const splash = document.getElementById('welcome-splash');
+    if (!splashSeen && splash) {
+      splash.classList.remove('hidden');
+      splash.style.display = 'flex';
+    } else if (splash) {
+      splash.style.display = 'none';
+    }
+
+    // Blackhole boots on welcome splash
+    AuraBlackhole.mountTo('welcome-splash');
+
+    // Handle subs-menu route
+    if (location.hash === '#subs-menu') {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-subs-menu')?.classList.add('active');
+    }
+  });
+
+  // WelcomeSplash dismiss patches sessionStorage
+  const _origDismiss = window.WelcomeSplash ? window.WelcomeSplash.dismiss : null;
+  window.WelcomeSplash = window.WelcomeSplash || {};
+  window.WelcomeSplash.dismiss = function() {
+    sessionStorage.setItem('aura_splash_seen', '1');
+    const splash = document.getElementById('welcome-splash');
+    if (splash) splash.classList.add('ws-exiting');
+    setTimeout(() => {
+      if (splash) splash.style.display = 'none';
+      if (_origDismiss) _origDismiss();
+    }, 700);
+  };
+</script>
+</body>
+</html>
