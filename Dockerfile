@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 5000
 
 # تشغيل السيرفر باستخدام Gunicorn للسرعة القصوى
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--threads", "2", "--timeout", "0", "app:app"]
